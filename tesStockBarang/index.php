@@ -69,15 +69,88 @@ require "cek.php";
                                     <th>Nama Barang</th>
                                     <th>Deskripsi</th>
                                     <th>Stock Barang</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                <?php
+                                    $i=1;
+                                    $ambilsemuastock = mysqli_query($conn,"select * from stock");
+                                    while($data = mysqli_fetch_array($ambilsemuastock)){
+                                        
+                                        $namabarang = $data['namabarang'];
+                                        $deskripsi = $data['deskripsi'];
+                                        $stockbarang = $data['stockbarang'];
+                                        $idb = $data['idbarang'];
+
+
+                                ?>
+                                <!-- Cara menampilkan data di database ke dalam website -->
                                 <tr>
-                                    <td>Tiger Nixon</td>
-                                    <td>System Architect</td>
-                                    <td>Edinburgh</td>
-                                    <td>61</td>
+                                    <td> <?=$i++;?> </td>
+                                    <td> <?=$namabarang;?> </td>
+                                    <td> <?=$deskripsi;?> </td>
+                                    <td> <?=$stockbarang;?> </td>
+                                    <td>
+                                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#edit<?=$idb;?>">
+                                        Edit
+                                    </button>
+                                    <input type="hidden" name="idbaranghapus" value="<?=$idb;?>">
+                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete<?=$idb;?>">
+                                        Hapus
+                                    </button>                 
+                                    </td>
                                 </tr>
+                                <!-- The Edit Modal -->
+                                    <div class="modal fade" id="edit<?=$idb;?>">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                        <!-- Modal Header -->
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Edit Barang</h4>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                </div>
+                                                <!-- Modal body -->
+                                                <div class="modal-body">
+                                                    <form method="post">
+                                                        <div class="modal-body">
+                                                            <input type="text" name="namabarang" value="<?=$namabarang;?>" class="form-control" required>
+                                                            <br>
+                                                            <input type="text" name="deskripsi" value = "<?=$deskripsi;?>" class="form-control" required>
+                                                            <br>
+                                                            <input type="hidden" name="idb" value = "<?=$idb;?>">
+                                                            <button type="submit" class="btn btn-primary" name="editstockbarang">Submit</button>
+                                                        </div>
+                                                    </form>      
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <!-- The Delete Modal -->
+                                    <div class="modal fade" id="delete<?=$idb;?>">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                        <!-- Modal Header -->
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Hapus Barang?</h4>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                </div>
+                                                <!-- Modal body -->
+                                                <div class="modal-body">
+                                                    <form method="post">
+                                                        <div class="modal-body">
+                                                            <p>Apakah anda yakin ingin menghapus <?=$namabarang;?> ?</p>
+                                                            <input type="hidden" name="idb" value = "<?=$idb;?>">
+                                                            <button a type="submit" class="btn btn-danger" name="hapusstockbarang">Hapus</button>
+                                                        </div>
+                                                    </form>      
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php
+                                        };
+                                ?>
                             </tbody>
                         </table>
                     </div>

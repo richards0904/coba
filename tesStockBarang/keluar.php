@@ -68,19 +68,32 @@ require "cek.php";
                         <table id="datatablesSimple">
                             <thead>
                                 <tr>
-                                    <th>ID Barang</th>
+                                    <th>Tanggal Keluar</th>
                                     <th>Nama Barang</th>
-                                    <th>Deskripsi</th>
-                                    <th>Stock Barang</th>
+                                    <th>Penerima</th>
+                                    <th>Quantity Keluar</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                <?php
+                                // tampilkan data dari tabel masuk dimisalkan m dan stock jadi s 
+                                    $ambilsemuakeluar = mysqli_query($conn,"select * from keluar k, stock s where s.idbarang = k.idbarang");
+                                    while($data = mysqli_fetch_array($ambilsemuakeluar)){
+                                        $tanggalkeluar = $data['tanggal'];
+                                        $namabarang = $data['namabarang'];
+                                        $penerima = $data['penerima'];
+                                        $qtykeluar = $data['qtykeluar'];
+                                ?>
+                                <!-- Cara menampilkan data di database ke dalam website -->
                                 <tr>
-                                    <td>Tiger Nixon</td>
-                                    <td>System Architect</td>
-                                    <td>Edinburgh</td>
-                                    <td>61</td>
+                                    <td> <?=$tanggalkeluar;?> </td>
+                                    <td> <?=$namabarang;?> </td>
+                                    <td> <?=$penerima;?> </td>
+                                    <td> <?=$qtykeluar;?> </td>
                                 </tr>
+                                <?php
+                                    };
+                                ?>
                             </tbody>
                         </table>
                     </div>

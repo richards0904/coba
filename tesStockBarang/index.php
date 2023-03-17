@@ -105,12 +105,12 @@ require "cek.php";
                                     <div class="modal fade" id="edit<?=$idb;?>">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
-                                        <!-- Modal Header -->
+                                        <!-- Edit Modal Header -->
                                                 <div class="modal-header">
                                                     <h4 class="modal-title">Edit Barang</h4>
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                                 </div>
-                                                <!-- Modal body -->
+                                                <!-- Edit Modal body -->
                                                 <div class="modal-body">
                                                     <form method="post">
                                                         <div class="modal-body">
@@ -130,12 +130,12 @@ require "cek.php";
                                     <div class="modal fade" id="delete<?=$idb;?>">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
-                                        <!-- Modal Header -->
+                                        <!-- Delete Modal Header -->
                                                 <div class="modal-header">
                                                     <h4 class="modal-title">Hapus Barang?</h4>
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                                 </div>
-                                                <!-- Modal body -->
+                                                <!-- Delete Modal body -->
                                                 <div class="modal-body">
                                                     <form method="post">
                                                         <div class="modal-body">

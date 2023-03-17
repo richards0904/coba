@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 16, 2023 at 05:18 AM
+-- Generation Time: Mar 17, 2023 at 07:55 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.0.25
 
@@ -82,9 +82,10 @@ CREATE TABLE `masuk` (
 --
 
 INSERT INTO `masuk` (`idmasuk`, `idbarang`, `tanggalmasuk`, `keterangan`, `qtymasuk`) VALUES
-(2, 1, '2023-03-14 05:13:46', 'kevin', 50),
+(2, 1, '2023-03-14 05:13:46', 'kevin', 11),
 (3, 4, '2023-03-14 05:36:41', 'sayu', 20),
-(4, 5, '2023-03-15 07:48:45', 'Irfan', 5000);
+(4, 5, '2023-03-15 07:48:45', 'Irfan', 5000),
+(6, 5, '2023-03-16 06:38:57', 'Rachel', 400);
 
 -- --------------------------------------------------------
 
@@ -104,9 +105,8 @@ CREATE TABLE `stock` (
 --
 
 INSERT INTO `stock` (`idbarang`, `namabarang`, `deskripsi`, `stockbarang`) VALUES
-(1, 'Fanta', 'Minuman Soda', 29),
-(4, 'Sprite', 'Minuman Soda', 25),
-(5, 'Pepsi', 'Minuman Soda', 3000);
+(1, 'Coca cola', 'Minuman Soda', 20),
+(5, 'Pepsi', 'Minuman Soda', 4100);
 
 --
 -- Indexes for dumped tables
@@ -156,7 +156,7 @@ ALTER TABLE `login`
 -- AUTO_INCREMENT for table `masuk`
 --
 ALTER TABLE `masuk`
-  MODIFY `idmasuk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `idmasuk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `stock`

@@ -72,6 +72,7 @@ require "cek.php";
                                     <th>Nama Barang</th>
                                     <th>Penerima</th>
                                     <th>Quantity Keluar</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -79,6 +80,8 @@ require "cek.php";
                                 // tampilkan data dari tabel masuk dimisalkan m dan stock jadi s 
                                     $ambilsemuakeluar = mysqli_query($conn,"select * from keluar k, stock s where s.idbarang = k.idbarang");
                                     while($data = mysqli_fetch_array($ambilsemuakeluar)){
+                                        $idk =$data['idkeluar'];
+                                        $idb=$data['idbarang'];
                                         $tanggalkeluar = $data['tanggal'];
                                         $namabarang = $data['namabarang'];
                                         $penerima = $data['penerima'];
@@ -90,7 +93,68 @@ require "cek.php";
                                     <td> <?=$namabarang;?> </td>
                                     <td> <?=$penerima;?> </td>
                                     <td> <?=$qtykeluar;?> </td>
+                                    <td>
+                                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#edit<?=$idk;?>">
+                                        Edit
+                                    </button>
+                                    <input type="hidden" name="idbaranghapus" value="<?=$idk;?>">
+                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete<?=$idk;?>">
+                                        Hapus
+                                    </button>                 
+                                    </td>
                                 </tr>
+                                <!-- The Edit Modal -->
+                                    <div class="modal fade" id="edit<?=$idk;?>">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                        <!-- Edit Modal Header -->
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Edit Barang</h4>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                </div>
+                                                <!-- Edit Modal body -->
+                                                <div class="modal-body">
+                                                    <form method="post">
+                                                        <div class="modal-body">
+                                                            <input type=text value='<?=$namabarang;?>' class='form-control' disabled>
+                                                            <br>
+                                                            <input type="text" name="penerima" value = "<?=$penerima;?>" class="form-control" required>
+                                                            <br>
+                                                            <input type="number" name="qtykeluar" value = "<?=$qtykeluar;?>" class="form-control" required>
+                                                            <br>
+                                                            <input type="hidden" name="idb" value = "<?=$idb;?>">
+                                                            <input type="hidden" name="idk" value = "<?=$idk;?>">
+                                                            <button type="submit" class="btn btn-primary" name="editkeluarbarang">Submit</button>
+                                                        </div>
+                                                    </form>      
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <!-- The Delete Modal -->
+                                    <div class="modal fade" id="delete<?=$idk;?>">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                        <!-- Delete Modal Header -->
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Hapus Barang?</h4>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                </div>
+                                                <!-- Delete Modal body -->
+                                                <div class="modal-body">
+                                                    <form method="post">
+                                                        <div class="modal-body">
+                                                            <p>Apakah anda yakin ingin menghapus <?=$namabarang;?> ?</p>
+                                                            <input type="hidden" name="idb" value = "<?=$idb;?>">
+                                                            <input type="hidden" name="qtykeluar" value = "<?=$qtykeluar?>">
+                                                            <input type="hidden" name="idk" value = "<?=$idk;?>">
+                                                            <button type="submit" class="btn btn-danger" name="hapuskeluarbarang">Hapus</button>
+                                                        </div>
+                                                    </form>      
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 <?php
                                     };
                                 ?>

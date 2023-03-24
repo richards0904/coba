@@ -59,7 +59,8 @@ require "cek.php";
                         <!-- Button to Open the Modal -->
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
                             Tambah Barang
-                        </button>                 
+                        </button>
+                        <a href="export.php" class="btn btn-success">Export Stock<a>
                     </div>
                     <div class="card-body">
                         <table id="datatablesSimple">

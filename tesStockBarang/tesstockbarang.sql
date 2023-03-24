@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 18 Mar 2023 pada 09.38
--- Versi server: 10.4.27-MariaDB
--- Versi PHP: 8.0.25
+-- Generation Time: Mar 24, 2023 at 07:34 AM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 8.0.25
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,7 +24,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `keluar`
+-- Table structure for table `keluar`
 --
 
 CREATE TABLE `keluar` (
@@ -36,7 +36,7 @@ CREATE TABLE `keluar` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `keluar`
+-- Dumping data for table `keluar`
 --
 
 INSERT INTO `keluar` (`idkeluar`, `idbarang`, `tanggal`, `penerima`, `qtykeluar`) VALUES
@@ -48,7 +48,7 @@ INSERT INTO `keluar` (`idkeluar`, `idbarang`, `tanggal`, `penerima`, `qtykeluar`
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `login`
+-- Table structure for table `login`
 --
 
 CREATE TABLE `login` (
@@ -58,7 +58,7 @@ CREATE TABLE `login` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `login`
+-- Dumping data for table `login`
 --
 
 INSERT INTO `login` (`iduser`, `email`, `password`) VALUES
@@ -67,7 +67,7 @@ INSERT INTO `login` (`iduser`, `email`, `password`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `masuk`
+-- Table structure for table `masuk`
 --
 
 CREATE TABLE `masuk` (
@@ -79,7 +79,7 @@ CREATE TABLE `masuk` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `masuk`
+-- Dumping data for table `masuk`
 --
 
 INSERT INTO `masuk` (`idmasuk`, `idbarang`, `tanggalmasuk`, `keterangan`, `qtymasuk`) VALUES
@@ -91,7 +91,7 @@ INSERT INTO `masuk` (`idmasuk`, `idbarang`, `tanggalmasuk`, `keterangan`, `qtyma
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `stock`
+-- Table structure for table `stock`
 --
 
 CREATE TABLE `stock` (
@@ -102,7 +102,7 @@ CREATE TABLE `stock` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `stock`
+-- Dumping data for table `stock`
 --
 
 INSERT INTO `stock` (`idbarang`, `namabarang`, `deskripsi`, `stockbarang`) VALUES
@@ -114,53 +114,53 @@ INSERT INTO `stock` (`idbarang`, `namabarang`, `deskripsi`, `stockbarang`) VALUE
 --
 
 --
--- Indeks untuk tabel `keluar`
+-- Indexes for table `keluar`
 --
 ALTER TABLE `keluar`
   ADD PRIMARY KEY (`idkeluar`);
 
 --
--- Indeks untuk tabel `login`
+-- Indexes for table `login`
 --
 ALTER TABLE `login`
   ADD PRIMARY KEY (`iduser`);
 
 --
--- Indeks untuk tabel `masuk`
+-- Indexes for table `masuk`
 --
 ALTER TABLE `masuk`
   ADD PRIMARY KEY (`idmasuk`);
 
 --
--- Indeks untuk tabel `stock`
+-- Indexes for table `stock`
 --
 ALTER TABLE `stock`
   ADD PRIMARY KEY (`idbarang`);
 
 --
--- AUTO_INCREMENT untuk tabel yang dibuang
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT untuk tabel `keluar`
+-- AUTO_INCREMENT for table `keluar`
 --
 ALTER TABLE `keluar`
   MODIFY `idkeluar` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT untuk tabel `login`
+-- AUTO_INCREMENT for table `login`
 --
 ALTER TABLE `login`
   MODIFY `iduser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT untuk tabel `masuk`
+-- AUTO_INCREMENT for table `masuk`
 --
 ALTER TABLE `masuk`
   MODIFY `idmasuk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT untuk tabel `stock`
+-- AUTO_INCREMENT for table `stock`
 --
 ALTER TABLE `stock`
   MODIFY `idbarang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;

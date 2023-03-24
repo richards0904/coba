@@ -1,5 +1,6 @@
 <?php
-//import koneksi ke database
+require "function.php";
+require "cek.php";
 ?>
 <html>
 <head>
@@ -19,9 +20,40 @@
 			<h2>Stock Bahan</h2>
 			<h4>(Inventory)</h4>
 				<div class="data-tables datatable-dark">
-					
-					<!-- Masukkan table nya disini, dimulai dari tag TABLE -->
-					
+                        <table class="table table-bordered" id="mauexport" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>ID Barang</th>
+                                    <th>Nama Barang</th>
+                                    <th>Deskripsi</th>
+                                    <th>Stock Barang</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                    $i=1;
+                                    $ambilsemuastock = mysqli_query($conn,"select * from stock");
+                                    while($data = mysqli_fetch_array($ambilsemuastock)){
+                                        
+                                        $namabarang = $data['namabarang'];
+                                        $deskripsi = $data['deskripsi'];
+                                        $stockbarang = $data['stockbarang'];
+                                        $idb = $data['idbarang'];
+                                ?>
+                                <!-- Cara menampilkan data di database ke dalam website -->
+                                <tr>
+                                    <!-- Menggunakan datatables tidak bisa memakai = harus memakai php echo  -->
+                                    <td> <?php echo $i++;?> </td>
+                                    <td> <?php echo $namabarang;?> </td>
+                                    <td> <?php echo $deskripsi;?> </td>
+                                    <td> <?php echo $stockbarang;?> </td>
+                                </tr>
+                                <?php
+                                        };
+                                ?>
+                            </tbody>
+                        </table>
+
 				</div>
 </div>
 	
@@ -30,7 +62,7 @@ $(document).ready(function() {
     $('#mauexport').DataTable( {
         dom: 'Bfrtip',
         buttons: [
-            'copy','csv','excel', 'pdf', 'print'
+            'excel', 'pdf', 'print'
         ]
     } );
 } );

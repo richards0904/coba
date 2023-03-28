@@ -63,6 +63,19 @@ require "cek.php";
                         <a href="export.php" class="btn btn-success">Export Stock<a>
                     </div>
                     <div class="card-body">
+                        <?php
+                            $ambildatastock = mysqli_query($conn,"select*from stock where stockbarang < 1");
+                            while($datastock =  mysqli_fetch_array($ambildatastock)){
+                                $namastock = $datastock['namabarang'];
+                            
+                        ?>
+                        <div class="alert alert-danger alert-dismissible fade show">
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            <strong>Perhatian</strong> Stock Barang <?=$namastock;?> Telah Habis
+                        </div>
+                        <?php
+                            }
+                        ?>
                         <table id="datatablesSimple">
                             <thead>
                                 <tr>

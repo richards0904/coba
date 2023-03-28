@@ -48,19 +48,30 @@ if(isset($_POST['barangkeluar'])){
     // mengambil data dari tabel stock
     $cekstocknow = mysqli_query($conn,"select * from stock where idbarang ='$barangout'");
     $ambilstock = mysqli_fetch_array($cekstocknow);
-    // mengambil data stockbarang dri tabel stock
-    $stocknow = $ambilstock['stockbarang'];
-    $stockqty = $stocknow-$qtykeluar;
-    //memasukan data yg diinput kedalam table masuk
-    // jangan memakai mysql_command pkai mysqli_command suka error gaboleh di mix juga
-    $addtablekeluar = mysqli_query($conn,"insert into keluar(idbarang,penerima,qtykeluar) values('$barangout','$penerima','$qtykeluar')");
-    //mengupdate data barang masuk ke dalam data stockbarang di tabel masuk
-    $updatestockkeluar = mysqli_query($conn,"update stock set stockbarang='$stockqty' where idbarang='$barangout'");
-    if($addtablekeluar&&$updatestockkeluar){
-        header("location:keluar.php");
+    //kalau barangnya cukup
+    if($ambilstock>=$qtykeluar){
+        // mengambil data stockbarang dri tabel stock
+        $stocknow = $ambilstock['stockbarang'];
+        $stockqty = $stocknow-$qtykeluar;
+        //memasukan data yg diinput kedalam table masuk
+        // jangan memakai mysql_command pkai mysqli_command suka error gaboleh di mix juga
+        $addtablekeluar = mysqli_query($conn,"insert into keluar(idbarang,penerima,qtykeluar) values('$barangout','$penerima','$qtykeluar')");
+        //mengupdate data barang masuk ke dalam data stockbarang di tabel masuk
+        $updatestockkeluar = mysqli_query($conn,"update stock set stockbarang='$stockqty' where idbarang='$barangout'");
+        if($addtablekeluar&&$updatestockkeluar){
+            header("location:keluar.php");
+        }else{
+            echo "Gagal Memasukan Data";
+            header("location:keluar.php");
+        }
+    // kalau barangnya tidak cukup
     }else{
-        echo "Gagal Memasukan Data";
-        header("location:keluar.php");
+        echo'
+        <script>
+            alert("Stock saat ini tidak mencukupi");
+            window.location.href="keluar.php";
+        </script>
+        ';
     }
 }
 // edit stock barang

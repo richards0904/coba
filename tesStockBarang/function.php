@@ -48,8 +48,9 @@ if(isset($_POST['barangkeluar'])){
     // mengambil data dari tabel stock
     $cekstocknow = mysqli_query($conn,"select * from stock where idbarang ='$barangout'");
     $ambilstock = mysqli_fetch_array($cekstocknow);
+    $stocks = $ambilstock['stokbarang'];
     //kalau barangnya cukup
-    if($ambilstock>=$qtykeluar){
+    if($stocks>=$qtykeluar){
         // mengambil data stockbarang dri tabel stock
         $stocknow = $ambilstock['stockbarang'];
         $stockqty = $stocknow-$qtykeluar;

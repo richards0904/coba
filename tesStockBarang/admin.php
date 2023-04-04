@@ -62,69 +62,63 @@ require "cek.php";
                     <div class="card-header">
                         <!-- Button to Open the Modal -->
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
-                            Tambah Barang
+                            Tambah Admin
                         </button>
-                        <a href="export.php" class="btn btn-success">Export Stock<a>
                     </div>
                     <div class="card-body">
                         <table id="datatablesSimple">
                             <thead>
                                 <tr>
-                                    <th>ID Barang</th>
-                                    <th>Nama Barang</th>
-                                    <th>Deskripsi</th>
-                                    <th>Stock Barang</th>
+                                    <th>ID User</th>
+                                    <th>Email</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php
                                     $i=1;
-                                    $ambilsemuastock = mysqli_query($conn,"select * from stock");
-                                    while($data = mysqli_fetch_array($ambilsemuastock)){
+                                    $ambilsemuaadmin = mysqli_query($conn,"select * from login");
+                                    while($data = mysqli_fetch_array($ambilsemuaadmin)){
                                         
-                                        $namabarang = $data['namabarang'];
-                                        $deskripsi = $data['deskripsi'];
-                                        $stockbarang = $data['stockbarang'];
-                                        $idb = $data['idbarang'];
+                                        $email = $data['email'];
+                                        $password = $data['password'];
+                                        $idu = $data['iduser'];
 
 
                                 ?>
                                 <!-- Cara menampilkan data di database ke dalam website -->
                                 <tr>
                                     <td> <?=$i++;?> </td>
-                                    <td> <?=$namabarang;?> </td>
-                                    <td> <?=$deskripsi;?> </td>
-                                    <td> <?=$stockbarang;?> </td>
+                                    <td> <?=$email;?> </td>
                                     <td>
-                                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#edit<?=$idb;?>">
+                                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#edit<?=$idu;?>">
                                         Edit
                                     </button>
-                                    <input type="hidden" name="idbaranghapus" value="<?=$idb;?>">
-                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete<?=$idb;?>">
+                                    <input type="hidden" name="idbaranghapus" value="<?=$idu;?>">
+                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete<?=$idu;?>">
                                         Hapus
                                     </button>                 
                                     </td>
                                 </tr>
                                 <!-- The Edit Modal -->
-                                    <div class="modal fade" id="edit<?=$idb;?>">
+                                    <div class="modal fade" id="edit<?=$idu;?>">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                         <!-- Edit Modal Header -->
                                                 <div class="modal-header">
-                                                    <h4 class="modal-title">Edit Barang</h4>
+                                                    <h4 class="modal-title">Edit Admin</h4>
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                                 </div>
                                                 <!-- Edit Modal body -->
                                                 <div class="modal-body">
                                                     <form method="post">
                                                         <div class="modal-body">
-                                                            <input type="text" name="namabarang" value="<?=$namabarang;?>" class="form-control" required>
+                                                            <input type="email" name="emailbaru" value="<?=$email;?>" class="form-control" required>
                                                             <br>
-                                                            <input type="text" name="deskripsi" value = "<?=$deskripsi;?>" class="form-control" required>
+                                                            <input type="password" name="passwordbaru" class="form-control" placeholder="password" required>
                                                             <br>
-                                                            <input type="hidden" name="idb" value = "<?=$idb;?>">
-                                                            <button type="submit" class="btn btn-primary" name="editstockbarang">Submit</button>
+                                                            <input type="hidden" name="idu" value = "<?=$idu;?>">
+                                                            <button type="submit" class="btn btn-primary" name="editadmin">Submit</button>
                                                         </div>
                                                     </form>      
                                                 </div>
@@ -132,21 +126,21 @@ require "cek.php";
                                         </div>
                                     </div>
                                 <!-- The Delete Modal -->
-                                    <div class="modal fade" id="delete<?=$idb;?>">
+                                    <div class="modal fade" id="delete<?=$idu;?>">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                         <!-- Delete Modal Header -->
                                                 <div class="modal-header">
-                                                    <h4 class="modal-title">Hapus Barang?</h4>
+                                                    <h4 class="modal-title">Hapus Admin?</h4>
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                                 </div>
                                                 <!-- Delete Modal body -->
                                                 <div class="modal-body">
                                                     <form method="post">
                                                         <div class="modal-body">
-                                                            <p>Apakah anda yakin ingin menghapus <?=$namabarang;?> ?</p>
-                                                            <input type="hidden" name="idb" value = "<?=$idb;?>">
-                                                            <button a type="submit" class="btn btn-danger" name="hapusstockbarang">Hapus</button>
+                                                            <p>Apakah anda yakin ingin menghapus <?=$email;?> ?</p>
+                                                            <input type="hidden" name="idu" value = "<?=$idu;?>">
+                                                            <button a type="submit" class="btn btn-danger" name="hapusadmin">Hapus</button>
                                                         </div>
                                                     </form>      
                                                 </div>
@@ -178,20 +172,18 @@ require "cek.php";
         <div class="modal-content">
     <!-- Modal Header -->
             <div class="modal-header">
-                <h4 class="modal-title">Tambah Barang</h4>
+                <h4 class="modal-title">Tambah Admin</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <!-- Modal body -->
             <div class="modal-body">
                 <form method="post">
                     <div class="modal-body">
-                        <input type="text" name="namabarang" placeholder="Nama Barang" class="form-control" required>
+                        <input type="email" name="emailadmin" placeholder="email" class="form-control" required>
                         <br>
-                        <input type="text" name="deskripsi" placeholder="Deskripsi Barang" class="form-control" required>
+                        <input type="password" name="password" placeholder="password" class="form-control" required>
                         <br>
-                        <input type="number" name="stockbarang" class="form-control" placeholder="Stock" required>
-                        <br>
-                        <button type="submit" class="btn btn-primary" name="addnewbarang">Submit</button>
+                        <button type="submit" class="btn btn-primary" name="addnewadmin">Submit</button>
                     </div>
                 </form>      
             </div>

@@ -7,6 +7,14 @@ if (isset($_POST['addnewbarang'])){
     $namabarang = $_POST['namabarang'];
     $deskripsi = $_POST['deskripsi'];
     $stockbarang = $_POST["stockbarang"];
+    // Gambar
+    $allowed_extensions= array('png','jpg'); // jenis file yang diijinkan
+    $nama = $_FILES['gambar']['name']; // mengambil nama gambar
+    $dot = explode('.',$nama); // untuk mengambil kata setelah titik dalam file
+    $ekstension = strtolower(end($dot)); //menampung ekstensinya
+    $ukuran = $_FILES['gambar']['size']; //menampung size gambar
+    $file_tmp = $_FILES['gambar']['tmp_name']; // menampung lokasi file
+    //penampilan --> 
     $addtotable = mysqli_query($conn,"insert into stock(namabarang,deskripsi,stockbarang) values('$namabarang','$deskripsi','$stockbarang')");
     if($addtotable){
         header("location:index.php");
@@ -48,12 +56,10 @@ if(isset($_POST['barangkeluar'])){
     // mengambil data dari tabel stock
     $cekstocknow = mysqli_query($conn,"select * from stock where idbarang ='$barangout'");
     $ambilstock = mysqli_fetch_array($cekstocknow);
-    $stocks = $ambilstock['stokbarang'];
+    $stocks = $ambilstock['stockbarang'];
     //kalau barangnya cukup
-    if($stocks>=$qtykeluar){
-        // mengambil data stockbarang dri tabel stock
-        $stocknow = $ambilstock['stockbarang'];
-        $stockqty = $stocknow-$qtykeluar;
+    if($stocks >= $qtykeluar){
+        $stockqty = $stocks-$qtykeluar;
         //memasukan data yg diinput kedalam table masuk
         // jangan memakai mysql_command pkai mysqli_command suka error gaboleh di mix juga
         $addtablekeluar = mysqli_query($conn,"insert into keluar(idbarang,penerima,qtykeluar) values('$barangout','$penerima','$qtykeluar')");
@@ -92,7 +98,9 @@ if(isset($_POST['editstockbarang'])){
 if(isset($_POST['hapusstockbarang'])){
     $idb = $_POST['idb'];
     $hapusStock = mysqli_query($conn,"delete from stock where idbarang = '$idb'");
-    if($hapusStock){
+    $hapusbarangmasuk= mysqli_query($conn,"delete from masuk where idbarang ='$idb'");
+    $hapusbarangkeluar= mysqli_query($conn,"delete from keluar where idbarang ='$idb'");
+    if($hapusStock&&$hapusbarangmasuk&&$hapusbarangkeluar){
         header("location:index.php");
     }else{
         echo "Edit Gagal";
@@ -114,18 +122,27 @@ if(isset($_POST['editmasukbarang'])){
     $cekqtymasuk= mysqli_query($conn,"select*from masuk where idmasuk ='$idm'");
     $ambilqtymasuk= mysqli_fetch_array($cekqtymasuk);
     $qtymasuklama= $ambilqtymasuk['qtymasuk'];
-    if($qtymasuk>$qtymasuklama){
+    if($qtymasuk<$qtymasuklama){
         $selisih = $qtymasuklama - $qtymasuk;
-        $stockbaru = $stocklama - $selisih;
-        $kurangstock = mysqli_query($conn,"update stock set stockbarang = '$stockbaru' where idbarang ='$idb'");
-        $editMasuk = mysqli_query($conn,"update masuk set qtymasuk = '$qtymasuk', keterangan='$keterangan' where idmasuk='$idm'");
-        if($kurangstock&&$editMasuk){
-            header("location:masuk.php");
+        if($stocklama>=$selisih){
+            $stockbaru = $stocklama - $selisih;
+            $kurangstock = mysqli_query($conn,"update stock set stockbarang = '$stockbaru' where idbarang ='$idb'");
+            $editMasuk = mysqli_query($conn,"update masuk set qtymasuk = '$qtymasuk', keterangan='$keterangan' where idmasuk='$idm'");
+            if($kurangstock&&$editMasuk){
+                header("location:masuk.php");
+            }else{
+                echo "Gagal";
+                header("location:masuk.php");
+            }
         }else{
-            echo "Gagal";
-            header("location:masuk.php");
+            echo'
+            <script>
+                alert("Stock saat ini tidak mencukupi");
+                window.location.href="masuk.php";
+            </script>
+            ';
         }
-    }else if($qtymasuk<$qtymasuklama){
+    }else if($qtymasuk>$qtymasuklama){
         $selisih = $qtymasuk-$qtymasuklama;
         $stockbaru= $stocklama+$selisih;
         $tambahstock=mysqli_query($conn,"update stock set stockbarang ='$stockbaru' where idbarang='$idb'");
@@ -146,14 +163,23 @@ if(isset($_POST['hapusmasukbarang'])){
     $getstock=mysqli_query($conn,"select*from stock where idbarang='$idb'");
     $takestock=mysqli_fetch_array($getstock);
     $datastock= $takestock['stockbarang'];
-    $kurangistock= $datastock-$qtymasuk;
-    $updatestockhapus = mysqli_query($conn,"update stock set stockbarang ='$kurangistock' where idbarang='$idb'");
-    $hapusmasuk=mysqli_query($conn,"delete from masuk where idmasuk ='$idm'");
-    if($updatestockhapus&&$hapusmasuk){
-        header("location:masuk.php");
+    if($datastock>$qtymasuk){
+        $kurangistock= $datastock-$qtymasuk;
+        $updatestockhapus = mysqli_query($conn,"update stock set stockbarang ='$kurangistock' where idbarang='$idb'");
+        $hapusmasuk=mysqli_query($conn,"delete from masuk where idmasuk ='$idm'");
+        if($updatestockhapus&&$hapusmasuk){
+            header("location:masuk.php");
+        }else{
+            echo"Gagal";
+            header("location:masuk.php");
+        }
     }else{
-        echo"Gagal";
-        header("location:masuk.php");
+        echo'
+        <script>
+            alert("Stock saat ini tidak mencukupi. Silahkan tambah Stock atau Edit Barang Keluar Terlebih dahulu");
+            window.location.href="masuk.php";
+        </script>
+        ';
     }
 }
 // edit barang keluar
@@ -173,14 +199,23 @@ if(isset($_POST['editkeluarbarang'])){
     $qtykeluarlama= $ambilqtykeluar['qtykeluar'];
     if($qtykeluar>$qtykeluarlama){
         $selisih = $qtykeluar - $qtykeluarlama;
-        $stockbaru = $stocklama - $selisih;
-        $kurangstock = mysqli_query($conn,"update stock set stockbarang = '$stockbaru' where idbarang ='$idb'");
-        $editKeluar = mysqli_query($conn,"update keluar set qtykeluar = '$qtykeluar', penerima='$penerima' where idkeluar='$idk'");
-        if($kurangstock&&$editKeluar){
-            header("location:keluar.php");
+        if($stocklama>=$selisih){
+            $stockbaru = $stocklama - $selisih;
+            $kurangstock = mysqli_query($conn,"update stock set stockbarang = '$stockbaru' where idbarang ='$idb'");
+            $editKeluar = mysqli_query($conn,"update keluar set qtykeluar = '$qtykeluar', penerima='$penerima' where idkeluar='$idk'");
+            if($kurangstock&&$editKeluar){
+                header("location:keluar.php");
+            }else{
+                echo "Gagal";
+                header("location:keluar.php");
+            }
         }else{
-            echo "Gagal";
-            header("location:keluar.php");
+            echo'
+            <script>
+                alert("Stock saat ini tidak mencukupi");
+                window.location.href="keluar.php";
+            </script>
+            ';
         }
     }else if($qtykeluar<$qtykeluarlama){
         $selisih = $qtykeluarlama-$qtykeluar;
@@ -211,6 +246,51 @@ if(isset($_POST['hapuskeluarbarang'])){
     }else{
         echo"Gagal";
         header("location:keluar.php");
+    }
+}
+// Tambah Admin Baru
+if(isset($_POST['addnewadmin'])){
+    $email=$_POST['emailadmin'];
+    $password=$_POST['password'];
+    $insertlogin=mysqli_query($conn,"insert into login (email,password) values ('$email','$password')");
+    if($insertlogin){
+        header("location:admin.php");
+    }else{
+        echo"
+        <script>
+            alert('Data Admin Gagal Dimasukan')
+            window.location.href='admin.php';
+        </script>";
+    }
+}
+//Edit Data Admin
+if (isset($_POST['editadmin'])){
+    $email = $_POST['emailbaru'];
+    $password=$_POST['passwordbaru'];
+    $idu=$_POST['idu'];
+    $editlogin=mysqli_query($conn,"update login set email='$email', password='$password' where iduser='$idu'");
+    if($editlogin){
+        header("location:admin.php");
+    }else{
+        echo"
+        <script>
+            alert('Data Admin Gagal Diubah');
+            window.location.href='admin.php';
+        </script>";
+    }
+}
+//Hapus Data Admin
+if(isset($_POST['hapusadmin'])){
+    $idu=$_POST['idu'];
+    $hapuslogin=mysqli_query($conn,"delete from login where iduser = '$idu'");
+    if($hapuslogin){
+        header("location:admin.php");
+    }else{
+        echo
+        "<script>
+            alert('Data Admin Gagal Dihapus');
+            window.location.href='admin.php';
+        </script>";
     }
 }
 ?>

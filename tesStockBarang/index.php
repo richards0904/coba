@@ -75,7 +75,7 @@ require "cek.php";
                         ?>
                         <div class="alert alert-danger alert-dismissible fade show">
                             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                            <strong>Perhatian</strong> Stock Barang <?=$namastock;?> Telah Habis
+                            <strong>Perhatian!!!</strong> Stock Barang <?=$namastock;?> Telah Habis
                         </div>
                         <?php
                             }
@@ -84,6 +84,7 @@ require "cek.php";
                             <thead>
                                 <tr>
                                     <th>ID Barang</th>
+                                    <th>Gambar</th>
                                     <th>Nama Barang</th>
                                     <th>Deskripsi</th>
                                     <th>Stock Barang</th>
@@ -100,12 +101,14 @@ require "cek.php";
                                         $deskripsi = $data['deskripsi'];
                                         $stockbarang = $data['stockbarang'];
                                         $idb = $data['idbarang'];
+                                        $gambar=$data['image'];
 
 
                                 ?>
                                 <!-- Cara menampilkan data di database ke dalam website -->
                                 <tr>
                                     <td> <?=$i++;?> </td>
+                                    <td> <?=$gambar;?> </td>
                                     <td> <?=$namabarang;?> </td>
                                     <td> <?=$deskripsi;?> </td>
                                     <td> <?=$stockbarang;?> </td>
@@ -196,13 +199,16 @@ require "cek.php";
             </div>
             <!-- Modal body -->
             <div class="modal-body">
-                <form method="post">
+                <!-- enctype disini digunakan agar form dpt mengirimkan data tipe file (hanya di post bisa)-->
+                <form method="post" enctype="multipart/form-data">
                     <div class="modal-body">
                         <input type="text" name="namabarang" placeholder="Nama Barang" class="form-control" required>
                         <br>
                         <input type="text" name="deskripsi" placeholder="Deskripsi Barang" class="form-control" required>
                         <br>
-                        <input type="number" name="stockbarang" class="form-control" placeholder="Stock" required>
+                        <input type="number" name="stockbarang" class="form-control" placeholder="Stock" value="0" min="0" required>
+                        <br>
+                        <input type="file" name="gambar" class="form-control">
                         <br>
                         <button type="submit" class="btn btn-primary" name="addnewbarang">Submit</button>
                     </div>
